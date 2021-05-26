@@ -103,6 +103,11 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000'
+]
+
 # ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 # ACCOUNT_EMAIL_REQUIRED = True
