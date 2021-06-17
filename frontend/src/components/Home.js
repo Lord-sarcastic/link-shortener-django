@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { UrlContext } from '../App';
 import { values } from '../constants';
 import LinkImage from '../assets/svgs/link.svg';
 
@@ -13,7 +14,7 @@ const MainImage = () => {
 }
 const MainTitle = ({ text }) => {
     return (
-        <h1 className="font-sans text-5xl my-3 text-center font-bold">
+        <h1 className="text-5xl my-3 text-center font-bold">
             {text}
         </h1>
     )
@@ -27,40 +28,46 @@ const MainDescription = ({ text, blueText }) => {
     )
 }
 
-const LinkForm = ({ placeHolder }) => {
+const LinkForm = ({ placeHolder, handleUrl }) => {
+    const { handleUrlChange, error } = useContext(UrlContext);
+    console.log(error);
+
     return (
         <input 
          type="url"
          placeholder={placeHolder}
-         className="border-0 w-full md:w-3/5 px-8 py-3 text-gray-400 bg-gray-100">
+         onChange={(e) => handleUrlChange(e.target.value)}
+         className={`border-${error === 'init' ? 'grey-500' : error ?  'red' : 'green'}-500 border-2 border-opacity-25 outline-none w-full md:w-3/5 px-8 py-3 text-gray-400 bg-gray-100`}>
         </input>
     )
 }
 
-const ShortenButton = ({ text }) => {
+const ShortenButton = ({ text, handleSubmit }) => {
+    const { error } = useContext(UrlContext);
+
     return (
-        <button className="border-0 text-lg mt-4 md:my-auto md:mx-2 w-full md:w-auto bg-none bg-blue-400 px-8 py-3.5 rounded-none text-white hover:bg-blue-500">
+        <button disabled={error} onClick={handleSubmit} className="border-0 text-lg mt-4 md:my-auto md:mx-2 w-full md:w-auto bg-none bg-blue-400 px-8 py-3.5 rounded-none text-white hover:bg-blue-500">
             {text}
         </button>
     )
 }
 
-const LinkContainer = ({ placeHolder, buttonText }) => {
+const LinkContainer = ({ placeHolder, buttonText, handleUrl, handleSubmit }) => {
     return (
         <div className="md:w-4/5 flex flex-col md:flex-row justify-evenly md:justify-center my-4 mx-auto text-2xl">
-            <LinkForm placeHolder={placeHolder} />
-            <ShortenButton text={buttonText} />
+            <LinkForm handleUrl={handleUrl} placeHolder={placeHolder} />
+            <ShortenButton text={buttonText} handleSubmit={handleSubmit} />
         </div>
     )
 }
 
-const HeroWrapper = () => {
+const HeroWrapper = ({ handleUrl, handleSubmit }) => {
     return (
         <div className="flex flex-col justify-around content-center items-center mx-auto sm:w-11/12 md:w-4/5 lg:w-3/5">
             <MainImage />
             <MainTitle text={values.title} />
             <MainDescription text={values.description} blueText={values.metaDescription} />
-            <LinkContainer placeHolder={values.placeHolder} buttonText={values.buttonText} />
+            <LinkContainer placeHolder={values.placeHolder} handleUrl={handleUrl} buttonText={values.buttonText} handleSubmit={handleSubmit} />
         </div>
     )
 }

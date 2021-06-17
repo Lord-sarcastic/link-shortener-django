@@ -2,6 +2,8 @@
 @tailwind utilities;
 @tailwind components;
 
-.btn {
-    @apply px-4 py-2 bg-blue-600 text-white rounded;
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@100&display=swap');
+
+body {
+    font-family: 'Alegreya Sans SC', sans-serif;
 }
