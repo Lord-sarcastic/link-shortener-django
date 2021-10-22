@@ -53,10 +53,15 @@ const ShortenButton = ({ text, handleSubmit }) => {
 }
 
 const LinkContainer = ({ placeHolder, buttonText, handleUrl, handleSubmit }) => {
+    const { error } = useContext(UrlContext);
+
     return (
-        <div className="md:w-4/5 flex flex-col md:flex-row justify-evenly md:justify-center my-4 mx-auto text-2xl">
-            <LinkForm handleUrl={handleUrl} placeHolder={placeHolder} />
-            <ShortenButton text={buttonText} handleSubmit={handleSubmit} />
+        <div>
+            <div className="md:w-4/5 flex flex-col md:flex-row justify-evenly md:justify-center my-4 mx-auto text-2xl">
+                <LinkForm handleUrl={handleUrl} placeHolder={placeHolder} />
+                <ShortenButton text={buttonText} handleSubmit={handleSubmit} />
+            </div>
+            <p className="text-center text-red-500 p-3">{error}</p>
         </div>
     )
 }

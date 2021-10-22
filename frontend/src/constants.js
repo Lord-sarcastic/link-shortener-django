@@ -1,5 +1,10 @@
 import { FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
+export const errors = {
+    invalidUrl: 'URL is not valid',
+    networkError: 'An error occurred, please try again some other time'
+}
+
 export const values = {
     title: "Shorten any link",
     description: "Build and protect your brand by using powerful and recognizable short links.",

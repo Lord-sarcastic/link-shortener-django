@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { URLS, BASE_URL } from './constants';
+import { errors, URLS, BASE_URL } from './constants';
 import HeroWrapper from './components/Home';
 import ModalWrapper from './components/Modal';
 
@@ -30,24 +30,28 @@ function App() {
         setUrl(url);
         
         if (!url.match(urlRegex)) {
-            setError(true);
+            setError(errors.invalidUrl);
             return;
         }
 
         setError(false);
     }
 
-  async function handleSubmit() {
-    const response = await fetch(URLS.shortener, {
+  function handleSubmit() {
+    fetch(URLS.shortener, {
       method: 'POST',
       body: JSON.stringify({url}),
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
       }
-    });
-    const urlData = await response.json();
-    setShortUrl(`${BASE_URL}${urlData.short_url_code}`);
+    })
+      .then(res => res.json())
+      .then((res) => {
+        setShortUrl(`${BASE_URL}${res.short_url_code}`);
+      })
+      .catch((e) => setError(errors.networkError))
+    
   }
 
   useEffect(() => {
